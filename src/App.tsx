@@ -4,7 +4,7 @@ import GlobalStyle from "./style/GlobalStyle";
 import { RouterProvider } from "react-router-dom";
 import router from "./routes";
 import { Amplify } from "aws-amplify";
-import { amplifyConfig } from "../awsconfig";
+import { amplifyConfig } from "./awsconfig";
 
 Amplify.configure(amplifyConfig);
 
