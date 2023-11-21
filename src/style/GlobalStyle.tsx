@@ -8,9 +8,15 @@ export default function GlobalStyle() {
           margin: 0;
           padding: 0;
           box-sizing: border-box;
+          background-color: transparent;
+          color: white;
+        }
+        html {
+          font-family: "Noto Sans KR", "Inter", sans-serif;
         }
         body {
           -ms-overflow-style: none;
+          background-color: black;
         }
 
         ::-webkit-scrollbar {

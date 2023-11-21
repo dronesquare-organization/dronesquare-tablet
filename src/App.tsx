@@ -5,18 +5,27 @@ import { RouterProvider } from "react-router-dom";
 import router from "./routes";
 import { Amplify } from "aws-amplify";
 import { amplifyConfig } from "./awsconfig";
+import { QUERY_OPTIONS } from "./utils/constant";
+import "rsuite/dist/rsuite.min.css";
+import { CustomProvider } from "rsuite";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 Amplify.configure(amplifyConfig);
 
-function App() {
-  const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: { queries: QUERY_OPTIONS },
+});
 
+function App() {
   return (
     <RecoilRoot>
-      <GlobalStyle />
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-      </QueryClientProvider>
+      <CustomProvider theme="dark">
+        <GlobalStyle />
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
+      </CustomProvider>
     </RecoilRoot>
   );
 }
