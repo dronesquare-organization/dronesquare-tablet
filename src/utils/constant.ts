@@ -98,7 +98,17 @@ export const AUTH_GRADE = {
   USER: "users",
   ADMIN: "admin",
 };
-export const SIGNIN_ERROR = {
+interface SignInErrorMap {
+  [key: string]: {
+    name: string;
+    message: {
+      ko: string;
+      en: string;
+    };
+  };
+}
+
+export const SIGNIN_ERROR: SignInErrorMap = {
   NotAuthorizedException: {
     name: "NotAuthorizedException",
     message: { ko: "비밀번호가 일치하지 않습니다.", en: "Wrong Password" },
