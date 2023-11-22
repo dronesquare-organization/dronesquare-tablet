@@ -2,9 +2,11 @@ import { Table } from "rsuite";
 import { css } from "@emotion/react";
 import { ProjectsDataType } from "../query/repository";
 import { getFlagOfProcess } from "../utils";
+import { useNavigate } from "react-router-dom";
 
 export default function ProjectTable({ data }: ProjectsDataType) {
   const { Column, HeaderCell, Cell } = Table;
+  const navigate = useNavigate();
   return (
     <div css={tableContainer}>
       <Table
@@ -16,7 +18,7 @@ export default function ProjectTable({ data }: ProjectsDataType) {
         // cellBordered={true}
         // width={1024}
         onRowClick={(rowData) => {
-          console.log("RowData", rowData);
+          navigate(`/multiview/${rowData.id}`);
         }}
       >
         <Column minWidth={80} flexGrow={1} verticalAlign="center">

@@ -7,6 +7,7 @@ import { Amplify } from "aws-amplify";
 import { amplifyConfig } from "./awsconfig";
 import { QUERY_OPTIONS } from "./utils/constant";
 import "rsuite/dist/rsuite.min.css";
+import "react-openlayers7/dist/index.css";
 import { CustomProvider } from "rsuite";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 

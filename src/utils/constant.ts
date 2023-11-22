@@ -1,8 +1,8 @@
-import { TfiLayoutGrid3 } from "react-icons/tfi";
 import {
   RiLayoutRowLine,
   RiLayoutColumnLine,
   RiLayoutGridLine,
+  RiSquareLine,
 } from "react-icons/ri";
 export const COGNITO_IDENTITYPOOL_ID = "IdentityPoolId";
 export const COGNITO_USERPOOL_ID = "UserPoolId";
@@ -188,34 +188,42 @@ export const TIMESERISE_QUERY_KEYS = [
 
 export const RANDOM_COLOR = ["blue", "red", "brown", "green", "black"];
 
-export const TIMESERISE_LAYOUT_BUTTONS = [
+export type TIMESERISE_LAYOUT_BUTTONS_TYPE = {
+  label: number;
+  icon: typeof RiSquareLine;
+  columns: number;
+  rows: number;
+  buttonSize: number;
+};
+
+export const TIMESERISE_LAYOUT_BUTTONS: TIMESERISE_LAYOUT_BUTTONS_TYPE[] = [
   {
     label: 0,
+    icon: RiSquareLine,
+    columns: 1,
+    rows: 1,
+    buttonSize: 25,
+  },
+  {
+    label: 1,
     icon: RiLayoutColumnLine,
     columns: 2,
     rows: 1,
     buttonSize: 25,
   },
   {
-    label: 1,
+    label: 2,
     icon: RiLayoutRowLine,
     columns: 1,
     rows: 2,
     buttonSize: 25,
   },
   {
-    label: 2,
+    label: 3,
     icon: RiLayoutGridLine,
     columns: 2,
     rows: 2,
     buttonSize: 25,
-  },
-  {
-    label: 3,
-    icon: TfiLayoutGrid3,
-    columns: 3,
-    rows: 3,
-    buttonSize: 24,
   },
 ];
 

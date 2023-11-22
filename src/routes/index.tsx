@@ -1,11 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
 import Login from "../pages/login";
-import MultiView from "../pages/multiView";
 import Projects from "../pages/projects";
+import MultiView from "../pages/multiview";
+import Test from "../pages/test";
 
 const router = createBrowserRouter([
   {
-    path: "/login",
+    path: "login",
     element: <Login />,
   },
   {
@@ -13,7 +14,11 @@ const router = createBrowserRouter([
     element: <Projects />,
   },
   {
-    path: "/multiview",
+    path: "test",
+    element: <Test />,
+  },
+  {
+    path: "multiview/:projectId",
     element: <MultiView />,
   },
 ]);

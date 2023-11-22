@@ -3,14 +3,28 @@ import Repository from "./repository";
 
 export const useGetProjectList = () => {
   return useQuery({
-    queryKey: ["getProjectList"],
+    queryKey: ["projectList"],
     queryFn: () => Repository.getProjectList(),
+  });
+};
+
+export const useGetProjectById = (id: number) => {
+  return useQuery({
+    queryKey: ["projectById", id],
+    queryFn: () => Repository.getProjectById(id),
   });
 };
 
 export const useGetSearchProjectList = (text: string) => {
   return useQuery({
-    queryKey: ["getSearchProject", text],
+    queryKey: ["searchProjectList", text],
     queryFn: () => Repository.getSearchProjectList(text),
+  });
+};
+
+export const useGetGisLayersById = (id: number) => {
+  return useQuery({
+    queryKey: ["gisLayersById", id],
+    queryFn: () => Repository.getGisLayersById(id),
   });
 };

@@ -43,11 +43,22 @@ class Repository {
     return API.get("DronesquareApi", "projects", {});
   }
 
+  async getProjectById(id: number) {
+    return API.get("DronesquareApi", `projects/${id}`, {});
+  }
+
   async getSearchProjectList(text: string): Promise<ProjectsDataType> {
     if (!text) {
       return API.get("DronesquareApi", "projects", {});
     }
     return API.get("DronesquareApi", `projects?term=${text}`, {});
+  }
+  async getGisLayersById(id: number) {
+    return API.get(
+      "DronesquareApi-Calculation",
+      `calculation/${id}/constant/gis_layers`,
+      {}
+    );
   }
 }
 
