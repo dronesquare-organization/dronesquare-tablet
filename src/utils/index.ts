@@ -6,7 +6,7 @@ export const getFlagOfProcess = (
   if (condition === PROJECT_CONDITION.BEFORE) {
     return `처리 전`;
   } else if (condition === PROJECT_CONDITION.PROCESSING) {
-    return `처리 중}`;
+    return `처리 중`;
   } else if (condition === PROJECT_CONDITION.COMPLETED) {
     return `처리 완료`;
   } else if (condition === PROJECT_CONDITION.FAILED) {

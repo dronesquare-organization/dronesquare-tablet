@@ -6,8 +6,10 @@ import { BUTTON_COLOR, COLOR } from "../style";
 
 export default function ProjectHeader({
   changeInputAddress,
+  projectCount,
 }: {
   changeInputAddress: (value: string) => void;
+  projectCount: number;
 }) {
   const handleSearchAddress = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -22,6 +24,10 @@ export default function ProjectHeader({
 
   return (
     <div css={ProjectTableContainer}>
+      <div css={flexStyle}>
+        <h1 css={h1Style}>프로젝트</h1>
+        <p css={pStyle}>{projectCount} 프로젝트</p>
+      </div>
       <div css={SearchDiv}>
         <input
           type="text"
@@ -35,19 +41,33 @@ export default function ProjectHeader({
   );
 }
 
-const ProjectTableContainer = css`
-  padding: 0 10%;
-  height: 50px;
-
-  border-bottom: 1px solid ${COLOR.Gray750};
+const flexStyle = css`
   display: flex;
   justify-content: space-between;
-  overflow: hidden;
   align-items: center;
+  /* background-color: yellow; */
+`;
+
+const ProjectTableContainer = css`
+  ${flexStyle};
+
+  padding: 15px 40px;
+  /* width: 100%; */
+`;
+
+const h1Style = css`
+  font-size: 32px;
+
+  line-height: normal;
+`;
+
+const pStyle = css`
+  font-size: 16px;
+  margin-top: 2px;
+  margin-left: 15px;
 `;
 
 const SearchDiv = css`
-  width: 160px;
   height: 40px;
   border-radius: 5px;
   border: 1px solid ${COLOR.Gray750};
@@ -64,7 +84,7 @@ const SearchDiv = css`
 `;
 
 const searchInput = css`
-  width: 140px;
+  width: 180px;
   border: none;
   margin-left: 10px;
   overflow: auto;
