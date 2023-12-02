@@ -3,6 +3,7 @@ import Login from "../pages/login";
 import Projects from "../pages/projects";
 import MultiView from "../pages/multiview";
 import Test from "../pages/test";
+import Error404 from "../pages/error404";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
   {
     path: "multiview/:projectId",
     element: <MultiView />,
+  },
+  {
+    path: "*",
+    element: <Error404 />,
   },
 ]);
 

@@ -1,20 +1,15 @@
-import { ControlSection, SyncMap, SyncMapGroup } from "react-openlayers7";
+import { SlLayers } from "react-icons/sl";
+import { AiFillCaretDown } from "react-icons/ai";
+import { Button } from "rsuite";
 
 const Test = () => {
   return (
     <div>
-      <SyncMapGroup rotate={90}>
-        <SyncMap>
-          <ControlSection>
-            <h1>hesdsllo</h1>
-          </ControlSection>
-        </SyncMap>
-        <SyncMap>
-          <ControlSection>
-            <h1>hello</h1>
-          </ControlSection>
-        </SyncMap>
-      </SyncMapGroup>
+      <SlLayers size={21} color="blue" />
+      <AiFillCaretDown color="blue" />
+      <Button appearance="subtle" color="green" size="xs">
+        <AiFillCaretDown color="blue" />
+      </Button>
     </div>
   );
 };

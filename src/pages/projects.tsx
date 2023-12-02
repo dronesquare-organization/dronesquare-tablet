@@ -4,17 +4,16 @@ import { css } from "@emotion/css";
 
 import ProjectHeader from "../components/ProjectHeader";
 import withAuth from "../hoc/withAuth";
-import { useGetSearchProjectList } from "../query/queries";
+import { useGetSearchProjects } from "../query/queries";
 import DefaultLayout from "../layout/DefaultLayout";
 import ProjectTable from "../components/ProjectTable";
 
 // eslint-disable-next-line react-refresh/only-export-components
 function Projects() {
   const [searchInputAddress, setSearchInputAddress] = useState<string>("");
-  const { data } = useGetSearchProjectList(searchInputAddress);
+  const { data } = useGetSearchProjects(searchInputAddress);
   const changeInputAddress = (value: string) => {
     setSearchInputAddress(value);
-    console.log("searchInputAddress", value);
   };
 
   return (
