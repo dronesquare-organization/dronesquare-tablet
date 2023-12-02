@@ -1,18 +1,25 @@
 import { css } from "@emotion/react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { MdRefresh, MdOutlineArrowBack } from "react-icons/md";
 import useAuthentication from "../hooks/useAuthentication";
 import { COLOR } from "../style";
+import { useGetProject } from "../query/queries";
 
 export default function Header() {
   const navigate = useNavigate();
-
+  const location = useLocation();
+  const projectId = location.pathname.split("/").pop();
+  const { data: projectData } = useGetProject(Number(projectId));
   const { data: currentUser, signOut } = useAuthentication();
 
   return (
     <header css={headerStyle}>
       <section css={flexStyle}>
-        <div>
+        <div
+          css={css`
+            display: flex;
+          `}
+        >
           <button
             onClick={() => {
               navigate(-1);
@@ -33,6 +40,19 @@ export default function Header() {
           <img src="/logo_dronesquare_white.png" alt="logo" />
         </div>
       </section>
+      <div
+        css={css`
+          margin: 0;
+          font-size: large;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+          word-break: keep-all;
+        `}
+      >
+        {projectData &&
+          `${projectData.data.title} | ${projectData.data.infra_class} | ${projectData.data.address}`}
+      </div>
       <nav>
         <ul css={flexStyle}>
           <li>
@@ -44,6 +64,9 @@ export default function Header() {
                   navigate("/login");
                 }
               }}
+              css={css`
+                word-break: keep-all;
+              `}
             >
               {currentUser ? "로그아웃" : "로그인"}
             </button>
@@ -64,6 +87,7 @@ const flexStyle = css`
 
 const headerStyle = css`
   ${flexStyle};
+
   justify-content: space-between;
   height: 57px;
   padding: 0 10px;
