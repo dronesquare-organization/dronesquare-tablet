@@ -62,7 +62,32 @@ export const INSPECTION2D_PAGE_CATEGORY = {
   timeSerise: { ko: "다중 뷰", en: "Multi-view" },
 };
 
-export const ISSUE_GRADE_VALUE_COLOR = [
+export const ISSUE_GRADE_VALUE_COLOR: [
+  {
+    grade: "0";
+    color: string;
+  },
+  {
+    grade: "1";
+    color: string;
+  },
+  {
+    grade: "2";
+    color: string;
+  },
+  {
+    grade: "3";
+    color: string;
+  },
+  {
+    grade: "4";
+    color: string;
+  },
+  {
+    grade: "5";
+    color: string;
+  }
+] = [
   { grade: "0", color: "#fff" },
   { grade: "1", color: "#F5BB3C" },
   { grade: "2", color: "#F59700" },
@@ -70,6 +95,7 @@ export const ISSUE_GRADE_VALUE_COLOR = [
   { grade: "4", color: "#E63F30" },
   { grade: "5", color: "#BE3C30" },
 ];
+
 export const MANAGE_DRONE_IMG_TABS = {
   UPLOADED_IMGS: { ko: "업로드 된 이미지", en: "Images" },
   PRE_UPLOAD_IMGS: { ko: "추가 할 이미지", en: "Image Uploading" },
@@ -288,3 +314,9 @@ export const PROJECT_CONDITION: {
 };
 
 export const FIVE_GIGABYTE_AMOUNT = 5368709120;
+
+// 최대: 1024x1366 최소: 768x1024
+export const Screen = {
+  small: 900,
+  wide: 1366,
+};
