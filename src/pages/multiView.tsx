@@ -1,24 +1,23 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 import {
-  ControlSection,
-  MapContainer,
-  TileLayer,
   Location as OpenlayerLocation,
   SyncMapGroup,
   SyncMap,
 } from "react-openlayers7";
 import { css } from "@emotion/react";
+import { ButtonToolbar, IconButton, Slider } from "rsuite";
 import withAuth from "../hoc/withAuth";
-import DefaultLayout from "../layout/DefaultLayout";
-import { useGetGisLayersById, useGetProjectById } from "../query/queries";
-import { ButtonToolbar, IconButton } from "rsuite";
+import { useGetProject } from "../query/queries";
+import SyncOpenLayerMap from "../components/multiView/SyncOpenLayerMap";
 import {
   TIMESERISE_LAYOUT_BUTTONS,
   TIMESERISE_LAYOUT_BUTTONS_TYPE,
 } from "../utils/constant";
+import DefaultLayout from "../layout/DefaultLayout";
+import { COLOR } from "../style";
 
-interface Path {
+export interface Path {
   pathname: string;
   search: string;
   hash: string;
@@ -26,34 +25,47 @@ interface Path {
 
 function MultiView() {
   const location: Path = useLocation();
-  const projectId = location.pathname.split("/").pop();
+  const projectId = Number(location.pathname.split("/").pop());
+  const { data } = useGetProject(projectId);
+
   const [layout, setLayout] = useState<TIMESERISE_LAYOUT_BUTTONS_TYPE>(
     TIMESERISE_LAYOUT_BUTTONS[0]
   );
-
-  const { data } = useGetProjectById(Number(projectId));
-  const { data: gisData } = useGetGisLayersById(Number(projectId));
-
-  console.log("data", data);
-  console.log("gisData", gisData);
   const handleLayoutChange = (layout: TIMESERISE_LAYOUT_BUTTONS_TYPE) => {
     setLayout(layout);
   };
+
+  const [rotate, setRotate] = useState(0);
+
+  // 레이아웃 별로 Component 생성
+  const syncMapComponent = useMemo(() => {
+    const components = [];
+    for (let i = 0; i < layout.columns * layout.rows; i++) {
+      components.push(
+        <SyncMap height="100%" width="100%" key={i}>
+          <SyncOpenLayerMap key={i} />
+        </SyncMap>
+      );
+    }
+    return components;
+  }, [layout]);
+
+  const syncMapComponentStyle = useMemo(() => {
+    return css`
+      display: grid;
+      gap: 4px;
+      width: calc(100% - 51px);
+      height: calc(100vh - 57px);
+      grid-template-columns: repeat(${layout.columns}, 1fr);
+      grid-template-rows: repeat(${layout.rows}, 1fr);
+      background-color: ${COLOR.Gray1000};
+    `;
+  }, [layout]);
+
+  if (!data) return;
+
   return (
     <DefaultLayout>
-      <SyncMapGroup>
-        <SyncMap>
-          <ControlSection>
-            <TileLayer url="https://tgxe79f6wl.execute-api.ap-northeast-2.amazonaws.com/dev/dev-drone-square-bucket/public/1/manifold/orthomosaic_tiles/{z}/{x}/{y}.png" />
-          </ControlSection>
-        </SyncMap>
-        <SyncMap>
-          <ControlSection>
-            <TileLayer url="https://tgxe79f6wl.execute-api.ap-northeast-2.amazonaws.com/dev/dev-drone-square-bucket/public/1/manifold/orthomosaic_tiles/{z}/{x}/{y}.png" />
-          </ControlSection>
-        </SyncMap>
-      </SyncMapGroup>
-
       <div css={multiViewContainer}>
         <div css={layoutContainer}>
           <ButtonToolbar>
@@ -69,12 +81,25 @@ function MultiView() {
               ></IconButton>
             ))}
           </ButtonToolbar>
+          <Slider
+            style={{ height: 200 }}
+            vertical
+            min={0}
+            max={360}
+            value={rotate}
+            onChange={(value) => {
+              setRotate(value);
+            }}
+          />
         </div>
-        <MapContainer
-          center={[data.data.lon, data.data.lat] as OpenlayerLocation}
-        >
-          <TileLayer url="https://tgxe79f6wl.execute-api.ap-northeast-2.amazonaws.com/dev/dev-drone-square-bucket/public/1/manifold/orthomosaic_tiles/{z}/{x}/{y}.png" />
-        </MapContainer>
+        <div css={syncMapComponentStyle}>
+          <SyncMapGroup
+            center={[data.data.lon, data.data.lat] as OpenlayerLocation}
+            rotate={rotate}
+          >
+            {syncMapComponent}
+          </SyncMapGroup>
+        </div>
       </div>
     </DefaultLayout>
   );
@@ -83,11 +108,19 @@ function MultiView() {
 const multiViewContainer = css`
   display: flex;
 `;
+
 const layoutContainer = css`
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  width: 50px;
+  height: 100vh;
+  width: 51px;
+
+  > * {
+    display: flex;
+    justify-content: center;
+
+    margin: 10px 0;
+  }
 `;
 // eslint-disable-next-line react-refresh/only-export-components
 export default withAuth(MultiView, { needLogin: true });
