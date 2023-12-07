@@ -3,6 +3,8 @@ import { debounce } from "lodash-es";
 import { css } from "@emotion/react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BUTTON_COLOR, COLOR } from "../style";
+import useLocale from "../hooks/useLocale";
+import { localeString } from "../utils/localeString";
 
 export default function ProjectHeader({
   changeInputAddress,
@@ -11,6 +13,8 @@ export default function ProjectHeader({
   changeInputAddress: (value: string) => void;
   projectCount: number;
 }) {
+  const { locale } = useLocale();
+
   const handleSearchAddress = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       debounceAddress(e.target.value);
@@ -25,13 +29,15 @@ export default function ProjectHeader({
   return (
     <div css={ProjectTableContainer}>
       <div css={flexStyle}>
-        <h1 css={h1Style}>프로젝트</h1>
-        <p css={pStyle}>{projectCount} 프로젝트</p>
+        <h1 css={h1Style}>{localeString.projects.project[locale.locale]}</h1>
+        <p css={pStyle}>
+          {projectCount} {localeString.projects.project[locale.locale]}
+        </p>
       </div>
       <div css={SearchDiv}>
         <input
           type="text"
-          placeholder="검색"
+          placeholder={localeString.projects.search[locale.locale]}
           onChange={handleSearchAddress}
           css={searchInput}
         />
@@ -45,34 +51,33 @@ const flexStyle = css`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* background-color: yellow; */
 `;
 
 const ProjectTableContainer = css`
   ${flexStyle};
-
-  padding: 15px 40px;
-  /* width: 100%; */
+  padding: 20px 35px 25px;
 `;
 
 const h1Style = css`
-  font-size: 32px;
-
+  font-size: 28px;
   line-height: normal;
 `;
 
 const pStyle = css`
   font-size: 16px;
-  margin-top: 2px;
+  margin-top: 5px;
   margin-left: 15px;
+  color: ${COLOR.Gray400};
 `;
 
 const SearchDiv = css`
+  display: flex;
   height: 40px;
   border-radius: 5px;
-  border: 1px solid ${COLOR.Gray750};
+  border: 1px solid ${COLOR.Gray650};
   display: flex;
   align-items: center;
+  line-height: 0;
   opacity: 1;
   :focus {
     border-color: ${BUTTON_COLOR.Primary};

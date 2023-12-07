@@ -1,7 +1,4 @@
 import { useState } from "react";
-
-import { css } from "@emotion/css";
-
 import ProjectHeader from "../components/ProjectHeader";
 import withAuth from "../hoc/withAuth";
 import { useGetSearchProjects } from "../query/queries";
@@ -19,19 +16,11 @@ function Projects() {
   if (!data) return;
   return (
     <DefaultLayout>
-      {/* <div>Projects</div> */}
-
       <ProjectHeader
         changeInputAddress={changeInputAddress}
         projectCount={data.data.length}
       />
-      <div
-        css={css`
-          margin: 0 30px;
-        `}
-      >
-        <ProjectTable data={data.data} />
-      </div>
+      <ProjectTable data={data.data} />
     </DefaultLayout>
   );
 }

@@ -3,21 +3,24 @@ import { css } from "@emotion/react";
 import { getFlagOfProcess } from "../utils";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { ProjectType } from "../query/model";
+import { ProjectType, ProjectsDataType } from "../query/model";
+import { localeString } from "../utils/localeString";
+import useLocale from "../hooks/useLocale";
+import { SortType } from "rsuite/esm/Table";
 
 export default function ProjectTable({ data }: ProjectsDataType) {
   const navigate = useNavigate();
+  const { locale } = useLocale();
 
   const { Column, HeaderCell, Cell } = Table;
-  const [sortColumn, setSortColumn] = useState<keyof ProjectType>();
-  const [sortType, setSortType] = useState();
-  const [loading, setLoading] = useState(false);
+  const [sortColumn, setSortColumn] = useState<string>();
+  const [sortType, setSortType] = useState<"desc" | "asc">();
 
   const getData = () => {
     if (sortColumn && sortType) {
       return data.sort((a, b) => {
-        const x = a[sortColumn];
-        const y = b[sortColumn];
+        const x = a[sortColumn as keyof ProjectType];
+        const y = b[sortColumn as keyof ProjectType];
         let numberX = 0;
         let numberY = 0;
         if (sortColumn === "updated" || sortColumn === "created") {
@@ -48,11 +51,12 @@ export default function ProjectTable({ data }: ProjectsDataType) {
     return data;
   };
 
-  const handleSortColumn = (sortColumn, sortType) => {
-    setLoading(true);
+  const handleSortColumn = (
+    dataKey: string,
+    sortType: SortType | undefined
+  ) => {
     setTimeout(() => {
-      setLoading(false);
-      setSortColumn(sortColumn);
+      setSortColumn(dataKey);
       setSortType(sortType);
     }, 500);
   };
@@ -63,11 +67,11 @@ export default function ProjectTable({ data }: ProjectsDataType) {
         autoHeight={true}
         rowHeight={60}
         loading={false}
-        bordered={true}
         data={getData() as ProjectType[]}
         sortColumn={sortColumn}
         sortType={sortType}
         onSortColumn={handleSortColumn}
+        // bordered={true}
         // cellBordered={true}
         // width={1024}
         onRowClick={(rowData) => {
@@ -75,35 +79,46 @@ export default function ProjectTable({ data }: ProjectsDataType) {
         }}
       >
         <Column minWidth={200} flexGrow={2} verticalAlign="center" sortable>
-          <HeaderCell align="center">프로젝트 명</HeaderCell>
+          <HeaderCell align="center">
+            {localeString.projects.projectName[locale.locale]}
+          </HeaderCell>
           <Cell dataKey="title" />
         </Column>
         <Column
           minWidth={200}
           flexGrow={2}
           verticalAlign="center"
-
           //   fullText={true}
         >
-          <HeaderCell align="center">주소</HeaderCell>
+          <HeaderCell align="center">
+            {localeString.projects.address[locale.locale]}
+          </HeaderCell>
           <Cell dataKey="address" />
         </Column>
         <Column align="center" verticalAlign="center" sortable>
-          <HeaderCell>인프라 타입</HeaderCell>
+          <HeaderCell>
+            {localeString.projects.address[locale.locale]}
+          </HeaderCell>
           <Cell dataKey="infra_class" />
         </Column>
         <Column align="center" verticalAlign="center" sortable>
-          <HeaderCell>객체 타입</HeaderCell>
+          <HeaderCell>
+            {localeString.projects.objectType[locale.locale]}
+          </HeaderCell>
           <Cell dataKey="infra_type" />
         </Column>
         <Column align="center" verticalAlign="center" sortable>
-          <HeaderCell>생성 날짜</HeaderCell>
+          <HeaderCell>
+            {localeString.projects.createdDate[locale.locale]}
+          </HeaderCell>
           <Cell dataKey="created">
             {(rowData) => `${rowData.created.split(" ")[0]}`}
           </Cell>
         </Column>
         <Column align="center" verticalAlign="center" sortable>
-          <HeaderCell>수정 날짜</HeaderCell>
+          <HeaderCell>
+            {localeString.projects.updatedDate[locale.locale]}
+          </HeaderCell>
           <Cell dataKey="updated">
             {(rowData) =>
               `${
@@ -113,11 +128,15 @@ export default function ProjectTable({ data }: ProjectsDataType) {
           </Cell>
         </Column>
         <Column align="center" verticalAlign="center" sortable>
-          <HeaderCell>드론 이미지 수</HeaderCell>
+          <HeaderCell>
+            {localeString.projects.droneImagesCount[locale.locale]}
+          </HeaderCell>
           <Cell dataKey="image_count" />
         </Column>
         <Column align="center" verticalAlign="center" sortable>
-          <HeaderCell>이미지 매핑</HeaderCell>
+          <HeaderCell>
+            {localeString.projects.droneImageMapping[locale.locale]}
+          </HeaderCell>
           <Cell dataKey="current_state">
             {(rowData) => `${getFlagOfProcess(rowData.current_state)}`}
           </Cell>
@@ -128,5 +147,6 @@ export default function ProjectTable({ data }: ProjectsDataType) {
 }
 const tableContainer = css`
   margin: 0 20px;
-  // 가운데 정렬 어캐
+  border: 1px solid #2a2c38;
+  border-radius: 5px;
 `;

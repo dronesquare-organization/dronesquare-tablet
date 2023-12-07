@@ -1,16 +1,37 @@
 import { css } from "@emotion/react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { MdRefresh, MdOutlineArrowBack } from "react-icons/md";
 import useAuthentication from "../hooks/useAuthentication";
 import { COLOR } from "../style";
 import { useGetProject } from "../query/queries";
+import { AiOutlineGlobal } from "react-icons/ai";
+import useLocale from "../hooks/useLocale";
+import { localeString } from "../utils/localeString";
+import { useCallback, useEffect } from "react";
 
-export default function Header() {
+export default function Header({ projectId }: { projectId?: number }) {
   const navigate = useNavigate();
-  const location = useLocation();
-  const projectId = location.pathname.split("/").pop();
+  const { locale, setLocale } = useLocale();
+
   const { data: projectData } = useGetProject(Number(projectId));
   const { data: currentUser, signOut } = useAuthentication();
+
+  const toggleLocale = useCallback(() => {
+    if (locale.locale === "ko") {
+      setLocale({ locale: "en" });
+      localStorage.setItem("ds-locale", "en");
+    } else {
+      setLocale({ locale: "ko" });
+      localStorage.setItem("ds-locale", "ko");
+    }
+  }, [locale]);
+
+  useEffect(() => {
+    const locale = localStorage.getItem("ds-locale") as "en" | "ko";
+    if (locale) {
+      setLocale({ locale });
+    }
+  }, []);
 
   return (
     <header css={headerStyle}>
@@ -21,18 +42,19 @@ export default function Header() {
           `}
         >
           <button
+            css={navigateButton}
             onClick={() => {
               navigate(-1);
             }}
           >
             <MdOutlineArrowBack size={24} />
           </button>
-          <button onClick={() => navigate(0)}>
+          <button css={navigateButton} onClick={() => navigate(0)}>
             <MdRefresh size={24} />
           </button>
         </div>
         <div
-          css={logoStyle}
+          css={logoButton}
           onClick={() => {
             navigate("/");
           }}
@@ -48,6 +70,7 @@ export default function Header() {
           overflow: hidden;
           white-space: nowrap;
           word-break: keep-all;
+          margin-right: 30px;
         `}
       >
         {projectData &&
@@ -65,14 +88,52 @@ export default function Header() {
                 }
               }}
               css={css`
+                width: 100%;
+                margin-right: 30px;
                 word-break: keep-all;
               `}
             >
-              {currentUser ? "로그아웃" : "로그인"}
+              {currentUser
+                ? localeString.header.logout[locale.locale]
+                : localeString.header.login[locale.locale]}
             </button>
           </li>
-          <li>
-            <button>ko/en</button>
+          <li
+            css={css`
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 2px;
+              word-break: keep-all;
+              width: 100%;
+            `}
+          >
+            <AiOutlineGlobal />
+            <button
+              css={css`
+                outline: none;
+                border: none;
+                padding: 4px;
+                font-weight: ${locale.locale === "ko" ? 700 : 400};
+                color: ${locale.locale === "ko" ? "white" : "#797979"};
+              `}
+              onClick={toggleLocale}
+            >
+              ko
+            </button>
+            /
+            <button
+              css={css`
+                outline: none;
+                border: none;
+                padding: 4px;
+                font-weight: ${locale.locale === "en" ? 700 : 400};
+                color: ${locale.locale === "en" ? "white" : "#797979"};
+              `}
+              onClick={toggleLocale}
+            >
+              en
+            </button>
           </li>
         </ul>
       </nav>
@@ -87,20 +148,20 @@ const flexStyle = css`
 
 const headerStyle = css`
   ${flexStyle};
-
+  font-size: 16px;
   justify-content: space-between;
   height: 57px;
-  padding: 0 10px;
+  padding: 0 20px;
   border-bottom: 1px solid ${COLOR.Gray550};
-  button {
-    border: none;
-    line-height: 0;
-    padding: 8px;
-    font-size: 16px;
-  }
 `;
 
-const logoStyle = css`
+const logoButton = css`
+  margin: 0 5px;
+`;
+
+const navigateButton = css`
+  outline: none;
+  border: none;
+  padding-right: 10px;
   line-height: 0;
-  margin-left: 10px;
 `;
