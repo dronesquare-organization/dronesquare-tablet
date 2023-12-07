@@ -2,8 +2,11 @@ import { Auth } from "aws-amplify";
 import { useQuery } from "@tanstack/react-query";
 import { LogInParameters } from "../pages/login";
 import { useState } from "react";
+import { SIGNIN_ERROR } from "../utils/constant";
+import useLocale from "./useLocale";
 
 export default function useAuthentication() {
+  const { locale } = useLocale();
   const [error, setError] = useState<string>("");
   const { data, refetch, isLoading } = useQuery({
     queryKey: ["me"],
@@ -14,9 +17,10 @@ export default function useAuthentication() {
     try {
       await Auth.signIn({ username, password });
       refetch();
-    } catch (error) {
-      setError((error as { name: string }).name);
-      console.error(error);
+    } catch (err) {
+      const message = SIGNIN_ERROR[(err as { name: string }).name];
+      setError(message.message[locale.locale]);
+      console.error(err);
     }
   };
 

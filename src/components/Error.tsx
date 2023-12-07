@@ -2,16 +2,19 @@ import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { css } from "@emotion/react";
 import { Button } from "rsuite";
+import { localeString } from "../utils/localeString";
+import useLocale from "../hooks/useLocale";
 
 const Error = ({
   code,
   description,
 }: {
-  code: string;
+  code?: string;
   description: string;
   icon?: string;
 }) => {
   const navigate = useNavigate();
+  const { locale } = useLocale();
   const isNumeric = useMemo((): boolean => {
     if (Number(code)) {
       return true;
@@ -20,7 +23,6 @@ const Error = ({
       return false;
     }
   }, [code]);
-
   return (
     <div
       css={css`
@@ -28,7 +30,7 @@ const Error = ({
         align-items: center;
         justify-content: center;
         width: 100%;
-        height: 100%;
+        height: calc(100vh - 57px);
       `}
     >
       <div
@@ -91,27 +93,28 @@ const Error = ({
             {code}
           </div>
         )}
-
-        <div
-          css={css`
-            margin-top: 20px;
-          `}
-        >
-          <Button
+        {code && (
+          <div
             css={css`
-              font-size: 20px;
-              width: 200px;
-              background-color: white;
-              color: black;
-              font-weight: 500;
+              margin-top: 20px;
             `}
-            size="lg"
-            ripple={true}
-            onClick={() => navigate("/")}
           >
-            홈으로
-          </Button>
-        </div>
+            <Button
+              css={css`
+                font-size: 20px;
+                width: 200px;
+                background-color: white;
+                color: black;
+                font-weight: 500;
+              `}
+              size="lg"
+              ripple={true}
+              onClick={() => navigate("/")}
+            >
+              {localeString.error.goHome[locale.locale]}
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );

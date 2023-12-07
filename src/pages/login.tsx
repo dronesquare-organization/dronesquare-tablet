@@ -5,7 +5,8 @@ import withAuth from "../hoc/withAuth";
 import useAuthentication from "../hooks/useAuthentication";
 import DefaultLayout from "../layout/DefaultLayout";
 import { COLOR } from "../style";
-import { SIGNIN_ERROR } from "../utils/constant";
+import useLocale from "../hooks/useLocale";
+import { localeString } from "../utils/localeString";
 
 export type LogInParameters = {
   username: string;
@@ -15,6 +16,8 @@ export type LogInParameters = {
 const Login = () => {
   const { register, handleSubmit } = useForm<LogInParameters>();
   const { signIn, error } = useAuthentication();
+  const { locale } = useLocale();
+
   const onSubmit: SubmitHandler<LogInParameters> = async (data) => {
     signIn(data);
   };
@@ -22,9 +25,9 @@ const Login = () => {
   return (
     <DefaultLayout>
       <form css={formContainer} onSubmit={handleSubmit(onSubmit)}>
-        <h3 css={formh3}>로그인</h3>
+        <h3 css={formh3}>{localeString.login.login[locale.locale]}</h3>
         <label css={formLabel} htmlFor="username">
-          아이디
+          {localeString.login.id[locale.locale]}
         </label>
         <input
           css={loginInput}
@@ -35,7 +38,7 @@ const Login = () => {
           {...register("username", { required: true })}
         />
         <label css={formLabel} htmlFor="password">
-          비밀번호
+          {localeString.login.password[locale.locale]}
         </label>
         <input
           css={loginInput}
@@ -45,9 +48,9 @@ const Login = () => {
           autoComplete="current-password"
           {...register("password", { required: true })}
         />
-        {error && <div css={errorDiv}>{SIGNIN_ERROR[error].message.ko}</div>}
+        <div css={errorDiv}>{error}</div>
         <button css={loginButton} type="submit">
-          로그인
+          {localeString.login.login[locale.locale]}
         </button>
       </form>
     </DefaultLayout>
