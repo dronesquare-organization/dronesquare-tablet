@@ -112,10 +112,6 @@ export type ProjectGisLayerData = {
   tms_layer: TmsLayer[];
 };
 
-export type dxfsData = {
-  features: 
-}
-
 export type EpsgData = {
-  epsg: EpsgCode
-}
+  epsg: EpsgCode;
+};

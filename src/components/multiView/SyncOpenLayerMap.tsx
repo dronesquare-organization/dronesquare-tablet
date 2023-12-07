@@ -17,7 +17,7 @@ import {
   DATA_BUCKET_NAME,
   S3_API_URL,
 } from "../../utils/constant";
-import { Path } from "../../pages/multiview";
+import { Path } from "../../pages/multiView";
 import useIsShown from "../../hooks/useIsShown";
 import useOnClickOutside from "../../hooks/useOnClickOutside";
 import {

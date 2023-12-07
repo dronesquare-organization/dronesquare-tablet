@@ -14,7 +14,7 @@ const useGetWindowSize = () => {
       return;
     }
 
-    function handleResize(this: Window, ev: UIEvent) {
+    function handleResize(this: Window) {
       setWidth(this.innerWidth);
       setHeight(this.innerHeight);
     }

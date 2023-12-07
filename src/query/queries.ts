@@ -12,6 +12,7 @@ export const useGetProject = (id: number) => {
   return useQuery({
     queryKey: ["project", id],
     queryFn: () => Repository.getProject(id),
+    enabled: !!id,
   });
 };
 
