@@ -9746,7 +9746,7 @@ __metadata:
     react-dom: ^18.2.0
     react-hook-form: ^7.48.2
     react-icons: ^4.11.0
-    react-openlayers7: ^0.3.46
+    react-openlayers7: 0.3.47
     react-router-dom: ^6.18.0
     recoil: ^0.7.7
     rsuite: ^5.44.0
@@ -15681,9 +15681,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-openlayers7@npm:^0.3.46":
-  version: 0.3.46
-  resolution: "react-openlayers7@npm:0.3.46"
+"react-openlayers7@npm:0.3.47":
+  version: 0.3.47
+  resolution: "react-openlayers7@npm:0.3.47"
   dependencies:
     "@phosphor-icons/react": ^2.0.10
     lodash: ^4.17.21
@@ -15697,7 +15697,7 @@ __metadata:
     "@emotion/styled": ^11.11.0
     react: ^18.2.0
     react-dom: ^18.2.0
-  checksum: 62ee93c36f384709ef2f7e20bc52e63d489493b6d20d6db6da435244648949a58670fd8a8c70121fd6dd9b8ac5e108f23e74e34324ccaf43b8fd04d14316f3d2
+  checksum: f8d24bca3cff4ac543fbf259efb4328fd44198cff63687b2426c3a7f1c3e1ce0ade23fe80aa7a6bae27ec710b718172f78a15b75d0641f9ca0fcb33f57391a52
   languageName: node
   linkType: hard
 
