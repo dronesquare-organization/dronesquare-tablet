@@ -13,14 +13,14 @@ export default function ProjectTable({ data }: ProjectsDataType) {
   const { locale } = useLocale();
 
   const { Column, HeaderCell, Cell } = Table;
-  const [sortColumn, setSortColumn] = useState<string>();
-  const [sortType, setSortType] = useState<"desc" | "asc">();
+  const [sortColumn, setSortColumn] = useState<keyof ProjectType>();
+  const [sortType, setSortType] = useState<SortType>();
 
   const getData = () => {
     if (sortColumn && sortType) {
       return data.sort((a, b) => {
-        const x = a[sortColumn as keyof ProjectType];
-        const y = b[sortColumn as keyof ProjectType];
+        const x = a[sortColumn];
+        const y = b[sortColumn];
         let numberX = 0;
         let numberY = 0;
         if (sortColumn === "updated" || sortColumn === "created") {
@@ -56,7 +56,7 @@ export default function ProjectTable({ data }: ProjectsDataType) {
     sortType: SortType | undefined
   ) => {
     setTimeout(() => {
-      setSortColumn(dataKey);
+      setSortColumn(dataKey as keyof ProjectType);
       setSortType(sortType);
     }, 500);
   };
