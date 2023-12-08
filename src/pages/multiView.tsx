@@ -40,10 +40,6 @@ function MultiView() {
   const [touchY, setTouchY] = useState(0);
   const [rotate, setRotate] = useState(0);
 
-  useEffect(() => {
-    console.log("rotate", rotate);
-  }, [rotate]);
-
   const handleMouseDown = useCallback(() => {
     // touch시 mouse 이벤트가 같이 일어나므로
     if ("ontouchstart" in document.documentElement) return;
@@ -52,7 +48,6 @@ function MultiView() {
 
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     const yvalue = e.touches[0];
-    console.log("yvalue", yvalue);
     setTouchY(yvalue.pageY);
   }, []);
 
@@ -142,7 +137,7 @@ function MultiView() {
   // 레이아웃 별로 Component 생성
   const syncMapComponent = useMemo(() => {
     const components = [];
-    console.log("rotaterotate", rotate);
+
     for (let i = 0; i < layout.columns * layout.rows; i++) {
       components.push(
         <SyncMap height="100%" width="100%" key={i}>
